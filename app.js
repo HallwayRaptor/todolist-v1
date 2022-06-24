@@ -2,14 +2,18 @@ const express = require("express");
 
 const app = express();
 const port = 3000;
+const index = __dirname + "/index.html";
+
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-	let today = new Date();
+	const currentDay = today.getDay();
+	const today = new Date();
 
-	if (today.getDay() === 6 || today.getDay() === 0) {
-		res.send("Yay it's the weekend!");
+	if (currentDay === 6 || today.getDay() === 0) {
+		res.write("Yay it's the weekend!");
 	} else {
-		res.send("Boo! I have to work!");
+		res.send(index);
 	}
 });
 
