@@ -6,15 +6,24 @@ const index = __dirname + "/index.html";
 
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-	const currentDay = today.getDay();
-	const today = new Date();
+app.use(express.urlencoded({ extended: true }));
 
-	if (currentDay === 6 || today.getDay() === 0) {
-		res.write("Yay it's the weekend!");
-	} else {
-		res.send(index);
-	}
+app.get("/", (req, res) => {
+	const today = new Date();
+	const options = {
+		weekday: "long",
+		day: "numeric",
+		month: "long",
+	};
+
+	var day = today.toLocaleDateString("en-US", options);
+
+	res.render("list", { kindOfDay: day });
+});
+
+app.post("/", (req, res) => {
+	const item = req.body.newItem;
+	console.log(item);
 });
 
 app.listen(port, () => {
